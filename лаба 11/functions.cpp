@@ -3,12 +3,12 @@
 #include"header.h"
 data* order;
 data* temp;
-int amount;						 // количество записей о заказах
+int amount;						 // ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГЁГ±ГҐГ© Г® Г§Г ГЄГ Г§Г Гµ
 extern int main_menu()
 {
-	printf("1-ввести данные о заказах\n2-вывести данные о заказах\n");
-	printf("3-вывести данные о определенном заказе\n4-отсортироать записи\n");
-	printf("5-выход из программы\nВаш выбор?\n");
+	printf("1-ГўГўГҐГ±ГІГЁ Г¤Г Г­Г­Г»ГҐ Г® Г§Г ГЄГ Г§Г Гµ\n2-ГўГ»ГўГҐГ±ГІГЁ Г¤Г Г­Г­Г»ГҐ Г® Г§Г ГЄГ Г§Г Гµ\n");
+	printf("3-ГўГ»ГўГҐГ±ГІГЁ Г¤Г Г­Г­Г»ГҐ Г® Г®ГЇГ°ГҐГ¤ГҐГ«ГҐГ­Г­Г®Г¬ Г§Г ГЄГ Г§ГҐ\n4-Г®ГІГ±Г®Г°ГІГЁГ°Г®Г ГІГј Г§Г ГЇГЁГ±ГЁ\n");
+	printf("5-ГўГ»ГµГ®Г¤ ГЁГ§ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»\nГ‚Г Гё ГўГ»ГЎГ®Г°?\n");
 	int operation;
 	scanf_s("%d", &operation);
 	return operation;
@@ -16,25 +16,25 @@ extern int main_menu()
 extern void input_data()
 {
 	register int count;
-	printf("Введите количество записей, которые необходимо ввести\n");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЇГЁГ±ГҐГ©, ГЄГ®ГІГ®Г°Г»ГҐ Г­ГҐГ®ГЎГµГ®Г¤ГЁГ¬Г® ГўГўГҐГ±ГІГЁ\n");
 	scanf_s("%d", &amount);
 	order = (data*)malloc(amount * sizeof(data));
 	temp = (data*)malloc(amount * sizeof(data));
 	if (order == NULL)
 	{
-		printf("Невозможно выделить память\n"); exit(0);
+		printf("ГЌГҐГўГ®Г§Г¬Г®Г¦Г­Г® ГўГ»Г¤ГҐГ«ГЁГІГј ГЇГ Г¬ГїГІГј\n"); exit(0);
 	}
 	const static int percent = 100;
 	for (count = 0; count < amount; count++)
 	{
-		printf("Введите идентификационный номер %d-го заказа: ", count + 1);
+		printf("Г‚ГўГҐГ¤ГЁГІГҐ ГЁГ¤ГҐГ­ГІГЁГґГЁГЄГ Г¶ГЁГ®Г­Г­Г»Г© Г­Г®Г¬ГҐГ° %d-ГЈГ® Г§Г ГЄГ Г§Г : ", count + 1);
 		scanf_s("%d", &order[count].orderId);
-		printf("Введите наименование деталей из %d-го заказа: ", count + 1);
+		printf("Г‚ГўГҐГ¤ГЁГІГҐ Г­Г ГЁГ¬ГҐГ­Г®ГўГ Г­ГЁГҐ Г¤ГҐГІГ Г«ГҐГ© ГЁГ§ %d-ГЈГ® Г§Г ГЄГ Г§Г : ", count + 1);
 		getchar();
 		gets_s(order[count].orderName);
-		puts("Введите количество всех деталей: ");
+		puts("Г‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГўГ±ГҐГµ Г¤ГҐГІГ Г«ГҐГ©: ");
 		scanf_s("%d", &order[count].totalDetails);
-		puts("Введите количество годных деталей: ");
+		puts("Г‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЈГ®Г¤Г­Г»Гµ Г¤ГҐГІГ Г«ГҐГ©: ");
 		scanf_s("%d", &order[count].usableDetails);
 		order[count].percentOfUsable = (static_cast<double>(order[count].usableDetails) / order[count].totalDetails) * percent;
 	}
@@ -43,7 +43,7 @@ extern void output_data()
 {
 	register int count;
 	printf("\n");
-	printf("№   Название  Общее кол-во  Кол-во годных  Процент годных\n");
+	printf("В№   ГЌГ Г§ГўГ Г­ГЁГҐ  ГЋГЎГ№ГҐГҐ ГЄГ®Г«-ГўГ®  ГЉГ®Г«-ГўГ® ГЈГ®Г¤Г­Г»Гµ  ГЏГ°Г®Г¶ГҐГ­ГІ ГЈГ®Г¤Г­Г»Гµ\n");
 	printf("******************************************************\n");
 	for (count = 0; count < amount; count++)
 	{
@@ -56,13 +56,13 @@ extern void output_data()
 extern void output_certain_data()
 {
 	register int orderNumber, count;
-	printf("Введите номер записи, которую хотите ввести\n");
+	printf("Г‚ГўГҐГ¤ГЁГІГҐ Г­Г®Г¬ГҐГ° Г§Г ГЇГЁГ±ГЁ, ГЄГ®ГІГ®Г°ГіГѕ ГµГ®ГІГЁГІГҐ ГўГўГҐГ±ГІГЁ\n");
 	scanf_s("%d", &orderNumber);
 	for (count = 0; count < amount; count++)
 	{
 		if (orderNumber == order[count].orderId)
 		{
-			printf("№   Название  Общее кол-во  Кол-во годных  Процент годных\n");
+			printf("В№   ГЌГ Г§ГўГ Г­ГЁГҐ  ГЋГЎГ№ГҐГҐ ГЄГ®Г«-ГўГ®  ГЉГ®Г«-ГўГ® ГЈГ®Г¤Г­Г»Гµ  ГЏГ°Г®Г¶ГҐГ­ГІ ГЈГ®Г¤Г­Г»Гµ\n");
 			printf("******************************************************\n");
 			printf("%d %s %12d %18d %16lf", order[orderNumber - 1].orderId, order[orderNumber - 1].orderName, order[orderNumber - 1].totalDetails,
 				order[orderNumber - 1].usableDetails, order[orderNumber - 1].percentOfUsable);
@@ -70,15 +70,14 @@ extern void output_certain_data()
 		}
 	}
 	
-	printf("Takogo nomera zakaza HET!");
 }
 static bool checkNumber(int num)
 {
 	bool state = false;
 	while (!state)
 	{
-		if (num==0) printf("Нумерация заказов начинается с 1\n");
-		else if (num > amount) printf("Нету такой записи\n");
+		if (num==0) printf("ГЌГіГ¬ГҐГ°Г Г¶ГЁГї Г§Г ГЄГ Г§Г®Гў Г­Г Г·ГЁГ­Г ГҐГІГ±Гї Г± 1\n");
+		else if (num > amount) printf("ГЌГҐГІГі ГІГ ГЄГ®Г© Г§Г ГЇГЁГ±ГЁ\n");
 		else state = true;
 	}
 	return state;
