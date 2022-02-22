@@ -71,14 +71,3 @@ extern void output_certain_data()
 	}
 	
 }
-static bool checkNumber(int num)
-{
-	bool state = false;
-	while (!state)
-	{
-		if (num==0) printf("Íóìåðàöèÿ çàêàçîâ íà÷èíàåòñÿ ñ 1\n");
-		else if (num > amount) printf("Íåòó òàêîé çàïèñè\n");
-		else state = true;
-	}
-	return state;
-}
