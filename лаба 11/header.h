@@ -1,26 +1,29 @@
 #pragma once
 struct orders
 {
-	int orderId;                 // идентификационный номер заказа
-	char orderName[30];			 // наименование деталей в заказе
-	int totalDetails;			 // общее количество деталей
-	int usableDetails;           // количество годных деталей
-	double percentOfUsable;      // процент годных деталей
+	int orderId;						// РёРґРµРЅС‚РёС„РёРєР°С†РёРѕРЅРЅС‹Р№ РЅРѕРјРµСЂ Р·Р°РєР°Р·Р°
+	char orderName[30];					// РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РґРµС‚Р°Р»РµР№ РІ Р·Р°РєР°Р·Рµ
+	int totalDetails;					// РѕР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РґРµС‚Р°Р»РµР№
+	int usableDetails;				    // РєРѕР»РёС‡РµСЃС‚РІРѕ РіРѕРґРЅС‹С… РґРµС‚Р°Р»РµР№
+	double percentOfUsable;				// РїСЂРѕС†РµРЅС‚ РіРѕРґРЅС‹С… РґРµС‚Р°Р»РµР№
 };
 typedef orders data;
 
 extern int main_menu();
 extern void input_data();
+static void checkDetails(data*, int);   // С„СѓРЅРєС†РёСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё С‚РѕРіРѕ, РЅРµ СЏРІР»СЏРµС‚СЃСЏ Р»Рё РІРІРµРґРµРЅРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РіРѕРґРЅС‹С… РґРµС‚Р°Р»РµР№ 
+										// Р±РѕР»СЊС€Рµ РїРѕР»РЅРѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° РґРµС‚Р°Р»РµР№
 extern void output_data();
 
 extern void output_certain_data();
-static bool checkNumber(int);
+static int checkNumber();
 
 extern void sort_data();
 static int menu();
 static void sort_by_ID();
 static void sort_by_name();
-static void sort_by_total();	  // отсортировать по общему количеству деталей
-static void sort_by_usable();     // отсортировать по количеству годных деталей
-static void sort_by_percentage(); // отсортировать по проценту годных деталей
+static void sort_by_total();			// РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ РѕР±С‰РµРјСѓ РєРѕР»РёС‡РµСЃС‚РІСѓ РґРµС‚Р°Р»РµР№
+static void sort_by_usable();			// РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ РєРѕР»РёС‡РµСЃС‚РІСѓ РіРѕРґРЅС‹С… РґРµС‚Р°Р»РµР№
+static void sort_by_percentage();		// РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ РїСЂРѕС†РµРЅС‚Сѓ РіРѕРґРЅС‹С… РґРµС‚Р°Р»РµР№
+
 
