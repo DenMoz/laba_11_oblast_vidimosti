@@ -2,13 +2,13 @@
 #include<stdlib.h>
 #include"header.h"
 data* order;
-data* temp;
-int amount;						 // êîëè÷åñòâî çàïèñåé î çàêàçàõ
+data *temp;
+int amount;						 // количество записей о заказах
 extern int main_menu()
 {
-	printf("1-ââåñòè äàííûå î çàêàçàõ\n2-âûâåñòè äàííûå î çàêàçàõ\n");
-	printf("3-âûâåñòè äàííûå î îïðåäåëåííîì çàêàçå\n4-îòñîðòèðîàòü çàïèñè\n");
-	printf("5-âûõîä èç ïðîãðàììû\nÂàø âûáîð?\n");
+	printf("1-ввести данные о заказах\n2-вывести данные о заказах\n");
+	printf("3-вывести данные о определенном заказе\n4-отсортироать записи\n");
+	printf("5-выход из программы\nВаш выбор?\n");
 	int operation;
 	scanf_s("%d", &operation);
 	return operation;
@@ -16,26 +16,26 @@ extern int main_menu()
 extern void input_data()
 {
 	register int count;
-	printf("Ââåäèòå êîëè÷åñòâî çàïèñåé, êîòîðûå íåîáõîäèìî ââåñòè\n");
+	printf("Введите количество записей, которые необходимо ввести\n");
 	scanf_s("%d", &amount);
 	order = (data*)malloc(amount * sizeof(data));
 	temp = (data*)malloc(amount * sizeof(data));
-	if (order == NULL)
+	if (order==NULL)
 	{
-		printf("Íåâîçìîæíî âûäåëèòü ïàìÿòü\n"); exit(0);
+		printf("Невозможно выделить память\n"); exit(0);
 	}
 	const static int percent = 100;
 	for (count = 0; count < amount; count++)
 	{
-		printf("Ââåäèòå èäåíòèôèêàöèîííûé íîìåð %d-ãî çàêàçà: ", count + 1);
+		printf("Введите идентификационный номер %d-го заказа: ", count + 1);
 		scanf_s("%d", &order[count].orderId);
-		printf("Ââåäèòå íàèìåíîâàíèå äåòàëåé èç %d-ãî çàêàçà: ", count + 1);
+		printf("Введите наименование деталей из %d-го заказа: ", count + 1);
 		getchar();
 		gets_s(order[count].orderName);
-		puts("Ââåäèòå êîëè÷åñòâî âñåõ äåòàëåé: ");
+		printf("Введите количество всех деталей: ");
 		scanf_s("%d", &order[count].totalDetails);
-		puts("Ââåäèòå êîëè÷åñòâî ãîäíûõ äåòàëåé: ");
-		scanf_s("%d", &order[count].usableDetails);
+		checkDetails(order, count);
+		printf("\n\n");
 		order[count].percentOfUsable = (static_cast<double>(order[count].usableDetails) / order[count].totalDetails) * percent;
 	}
 }
@@ -43,11 +43,11 @@ extern void output_data()
 {
 	register int count;
 	printf("\n");
-	printf("¹   Íàçâàíèå  Îáùåå êîë-âî  Êîë-âî ãîäíûõ  Ïðîöåíò ãîäíûõ\n");
+	printf("№   Название  Общее кол-во  Кол-во годных  Процент годных\n");
 	printf("******************************************************\n");
 	for (count = 0; count < amount; count++)
 	{
-		printf("%d %s %12d %16d %16lf.3", order[count].orderId, order[count].orderName, order[count].totalDetails,
+		printf("%d %s %12d %12d %20lf", order[count].orderId, order[count].orderName, order[count].totalDetails,
 			order[count].usableDetails, order[count].percentOfUsable);
 		printf("\n");
 	}
@@ -55,19 +55,35 @@ extern void output_data()
 }
 extern void output_certain_data()
 {
-	register int orderNumber, count;
-	printf("Ââåäèòå íîìåð çàïèñè, êîòîðóþ õîòèòå ââåñòè\n");
-	scanf_s("%d", &orderNumber);
-	for (count = 0; count < amount; count++)
+	register int orderNumber;
+	orderNumber=checkNumber();
+	printf("№   Название  Общее кол-во  Кол-во годных  Процент годных\n");
+	printf("******************************************************\n");
+	printf("%d %s %12d %12d %20lf", order[orderNumber - 1].orderId, order[orderNumber - 1].orderName, order[orderNumber - 1].totalDetails,
+		order[orderNumber - 1].usableDetails, order[orderNumber - 1].percentOfUsable);
+	printf("\n");
+}
+static int checkNumber()
+{
+	register int num;
+	bool state =false;
+	while (!state)
 	{
-		if (orderNumber == order[count].orderId)
-		{
-			printf("¹   Íàçâàíèå  Îáùåå êîë-âî  Êîë-âî ãîäíûõ  Ïðîöåíò ãîäíûõ\n");
-			printf("******************************************************\n");
-			printf("%d %s %12d %18d %16lf", order[orderNumber - 1].orderId, order[orderNumber - 1].orderName, order[orderNumber - 1].totalDetails,
-				order[orderNumber - 1].usableDetails, order[orderNumber - 1].percentOfUsable);
-			printf("\n");
-		}
+		puts("Введите номер записи, которую хотите вывести");
+		scanf_s("%d", &num);
+		if (num <= 0) printf("Нумерация заказов начинается с 1\n");
+		else if (num > amount) printf("Нету такой записи\n"); 
+		else state = true; 
 	}
-	
+	return num;
+}
+static void checkDetails(data* details, int counter)
+{
+	printf("Введите количество годных деталей: ");
+	scanf_s("%d", &order[counter].usableDetails);
+	while (order[counter].totalDetails < order[counter].usableDetails)
+	{
+		puts("Количество годных деталей должно быть не больше их общего количества. Введите еще раз ");
+		scanf_s("%d", &order[counter].usableDetails);
+	}
 }
