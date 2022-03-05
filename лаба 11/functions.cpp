@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include"header.h"
+#pragma warning(disable:4996)
 data* order;
-data *temp;
+data* temp;
 int amount;						 // количество записей о заказах
+FILE* file;
 extern int main_menu()
 {
 	printf("1-ввести данные о заказах\n2-вывести данные о заказах\n");
@@ -22,7 +24,13 @@ extern void input_data()
 	temp = (data*)malloc(amount * sizeof(data));
 	if (order==NULL)
 	{
-		printf("Невозможно выделить память\n"); exit(0);
+		printf("Невозможно выделить память\n"); 
+		exit(1);
+	}
+	if (!(file = fopen("file1.dat", "wb")))
+	{
+		printf("Не удалось открыть файл для записи\n");
+		exit(1);
 	}
 	const static int percent = 100;
 	for (count = 0; count < amount; count++)
@@ -37,18 +45,23 @@ extern void input_data()
 		checkDetails(order, count);
 		printf("\n\n");
 		order[count].percentOfUsable = (static_cast<double>(order[count].usableDetails) / order[count].totalDetails) * percent;
+		fwrite(&order[count], sizeof(data), 1, file);
 	}
+	fclose(file);
 }
 extern void output_data()
 {
-	register int count;
+	register int count=0;
 	printf("\n");
 	printf("№   Название  Общее кол-во  Кол-во годных  Процент годных\n");
-	printf("******************************************************\n");
-	for (count = 0; count < amount; count++)
+	printf("***********************************************************\n");
+	data temp;
+	file = fopen("file1.dat", "r+b");
+	while(!feof(file))
 	{
-		printf("%d %s %12d %12d %20lf", order[count].orderId, order[count].orderName, order[count].totalDetails,
-			order[count].usableDetails, order[count].percentOfUsable);
+		fread(&temp, sizeof(temp), 1, file);
+		printf("%d %s %12d %12d %20lf", temp.orderId, temp.orderName, temp.totalDetails,
+			temp.usableDetails, temp.percentOfUsable);
 		printf("\n");
 	}
 	printf("\n");
